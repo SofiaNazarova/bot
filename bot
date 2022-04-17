@@ -1,0 +1,14 @@
+public function allStates()
+    {
+        return $this->hasMany(SensorData::class, 'sensor_uuid' , 'uuid')->orderBy('created_at' , 'DESC');
+    }
+
+    public function todayStates()
+    {
+        return $this->hasMany(SensorData::class , 'sensor_uuid' , 'uuid')->whereDate('created_at' , '=' , Carbon::today())->orderBy('created_at' , 'ASC');
+    }
+
+    public function weekStates()
+    {
+        return $this->hasMany(SensorData::class , 'sensor_uuid' , 'uuid')->whereBetween('created_at' , [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])->orderBy('created_at' , 'ASC')->groupBy('created_at');
+    }
